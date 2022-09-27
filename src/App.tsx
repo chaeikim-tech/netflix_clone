@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { motion, useMotionValue } from 'framer-motion';
+import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { useEffect } from "react";
 
 const Wrapper = styled.div`
@@ -19,17 +19,21 @@ const Box = styled(motion.div)`
 `;
 
 const boxVariants = {
-    hover: { rotateZ: 90 },
-    click: { borderRadius: "100px" },
+  hover: { rotateZ: 90 },
+  click: { borderRadius: "100px" },
 };
 
 function App() {
-    const x = useMotionValue(0);
-    return (
-        <Wrapper>
-            <Box style={{ x }} drag="x" dragSnapToOrigin />
-        </Wrapper>
-    );
+  //motionValue = React Rendering Cycle을 발동시키지 않음
+  //Component가 재랜더링 되지 않음.
+  const x = useMotionValue(0);
+  const scaleMotion = useTransform(x, [-800, 0, 800], [2, 1, 0.1]);
+  return (
+    <Wrapper>
+      <Box style={{ x, scale: scaleMotion }} drag="x" dragSnapToOrigin />
+
+    </Wrapper>
+  );
 }
 
 export default App;
