@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
-import { useEffect } from "react";
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   display: flex;
   width: 100vw;
   justify-content: center;
@@ -27,10 +26,18 @@ function App() {
   //motionValue = React Rendering Cycle을 발동시키지 않음
   //Component가 재랜더링 되지 않음.
   const x = useMotionValue(0);
-  const scaleMotion = useTransform(x, [-800, 0, 800], [2, 1, 0.1]);
+  const rotateMotion = useTransform(x, [-800, 800], [-360, 360]);
+  const gradient = useTransform(
+    x,
+    [-800, 800],
+    [
+      "linear-gradient(135deg, rgb(255, 136, 75),rgb(255, 87, 127))",
+      "linear-gradient(135deg, rgb(111, 56, 197),rgb(135, 162, 251))",
+    ]
+  );
   return (
-    <Wrapper>
-      <Box style={{ x, scale: scaleMotion }} drag="x" dragSnapToOrigin />
+    <Wrapper style={{ background: gradient }}>
+      <Box style={{ x, rotateZ: rotateMotion }} drag="x" dragSnapToOrigin />
 
     </Wrapper>
   );
